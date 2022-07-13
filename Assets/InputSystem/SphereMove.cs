@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class SphereMove : MonoBehaviour
 {
@@ -11,13 +12,18 @@ public class SphereMove : MonoBehaviour
     Vector3 forceVector;
     Vector3 JumpVector;
     [SerializeField] float height;
+    [SerializeField] GameObject timer;
     float dashing;
     bool isDashing;
+    Timer time;
+    bool onGround;
 
     private void Awake()
     {
         sphereControl = new SphereControlls();
         rbSphere = GetComponent<Rigidbody>();
+        time = timer.GetComponent<Timer>();
+        
     }
 
     private void OnEnable()
@@ -39,6 +45,14 @@ public class SphereMove : MonoBehaviour
 
         JumpVector = Vector3.up;
     }
+
+    private void OnDisable()
+    {
+        steer.Disable();
+        jump.Disable();
+        startDash.Disable();
+        stopDash.Disable();
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -48,8 +62,8 @@ public class SphereMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isDashing == true) rbSphere.velocity = new Vector3(forceVector.x * 8f, rbSphere.velocity.y, 10f * dashing);
-        else rbSphere.velocity = new Vector3(forceVector.x * 8f, rbSphere.velocity.y, 10f);
+        if (isDashing == true) rbSphere.velocity = new Vector3(forceVector.x * 8f, rbSphere.velocity.y, 7f * dashing);
+        else rbSphere.velocity = new Vector3(forceVector.x * 8f, rbSphere.velocity.y, 7f);
     }
 
     // Update is called once per frame
@@ -60,7 +74,7 @@ public class SphereMove : MonoBehaviour
 
     void Jump (InputAction.CallbackContext context)
     {
-        if(rbSphere.velocity.y == 0f)
+        if (onGround == true)
         {
             rbSphere.AddForce(JumpVector * height);
         }
@@ -74,5 +88,33 @@ public class SphereMove : MonoBehaviour
     void DashRejuvinated(InputAction.CallbackContext context)
     {
         isDashing = true;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        onGround = true;
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        onGround = false;
+    }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Finish"))
+        {
+            if (time.time < PlayerPrefs.GetFloat("Record"))
+            {
+                PlayerPrefs.SetFloat("Record", time.time);
+            }
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        if (other.CompareTag("Deathplane"))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 }
