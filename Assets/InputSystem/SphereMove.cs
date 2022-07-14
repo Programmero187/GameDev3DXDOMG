@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class SphereMove : MonoBehaviour
 {
     SphereControlls sphereControl;
-    private InputAction steer, jump, startDash, stopDash;
+    private InputAction steer, jump, startDash, stopDash, openLevelChoose;
     Rigidbody rbSphere;
     Vector3 forceVector;
     Vector3 JumpVector;
@@ -26,6 +26,8 @@ public class SphereMove : MonoBehaviour
         
     }
 
+
+
     private void OnEnable()
     {
         steer = sphereControl.Player.Move;
@@ -43,6 +45,10 @@ public class SphereMove : MonoBehaviour
         stopDash.Enable();
         stopDash.performed += DashCeased;
 
+        openLevelChoose = sphereControl.Player.OpenLevelChoose;
+        openLevelChoose.Enable();
+        openLevelChoose.performed += OpenLevelChoose;
+
         JumpVector = Vector3.up;
     }
 
@@ -52,6 +58,7 @@ public class SphereMove : MonoBehaviour
         jump.Disable();
         startDash.Disable();
         stopDash.Disable();
+        openLevelChoose.Disable();
     }
     // Start is called before the first frame update
     void Start()
@@ -69,7 +76,13 @@ public class SphereMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       forceVector = steer.ReadValue<Vector3>();
+        forceVector = steer.ReadValue<Vector3>();
+       
+    }
+
+    void OpenLevelChoose(InputAction.CallbackContext context)
+    {
+        SceneManager.LoadScene("LevelChoose");
     }
 
     void Jump (InputAction.CallbackContext context)

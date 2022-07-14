@@ -71,6 +71,15 @@ public partial class @SphereControlls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenLevelChoose"",
+                    ""type"": ""Button"",
+                    ""id"": ""7924e627-c53f-4896-985e-eb25b019380b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -258,6 +267,17 @@ public partial class @SphereControlls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""DashStop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8896b85d-6d1b-4fd0-9c1f-492c00ad7dd3"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""OpenLevelChoose"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -850,6 +870,7 @@ public partial class @SphereControlls : IInputActionCollection2, IDisposable
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_DashGo = m_Player.FindAction("DashGo", throwIfNotFound: true);
         m_Player_DashStop = m_Player.FindAction("DashStop", throwIfNotFound: true);
+        m_Player_OpenLevelChoose = m_Player.FindAction("OpenLevelChoose", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -926,6 +947,7 @@ public partial class @SphereControlls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_DashGo;
     private readonly InputAction m_Player_DashStop;
+    private readonly InputAction m_Player_OpenLevelChoose;
     public struct PlayerActions
     {
         private @SphereControlls m_Wrapper;
@@ -935,6 +957,7 @@ public partial class @SphereControlls : IInputActionCollection2, IDisposable
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @DashGo => m_Wrapper.m_Player_DashGo;
         public InputAction @DashStop => m_Wrapper.m_Player_DashStop;
+        public InputAction @OpenLevelChoose => m_Wrapper.m_Player_OpenLevelChoose;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -959,6 +982,9 @@ public partial class @SphereControlls : IInputActionCollection2, IDisposable
                 @DashStop.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDashStop;
                 @DashStop.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDashStop;
                 @DashStop.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDashStop;
+                @OpenLevelChoose.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenLevelChoose;
+                @OpenLevelChoose.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenLevelChoose;
+                @OpenLevelChoose.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOpenLevelChoose;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -978,6 +1004,9 @@ public partial class @SphereControlls : IInputActionCollection2, IDisposable
                 @DashStop.started += instance.OnDashStop;
                 @DashStop.performed += instance.OnDashStop;
                 @DashStop.canceled += instance.OnDashStop;
+                @OpenLevelChoose.started += instance.OnOpenLevelChoose;
+                @OpenLevelChoose.performed += instance.OnOpenLevelChoose;
+                @OpenLevelChoose.canceled += instance.OnOpenLevelChoose;
             }
         }
     }
@@ -1139,6 +1168,7 @@ public partial class @SphereControlls : IInputActionCollection2, IDisposable
         void OnFire(InputAction.CallbackContext context);
         void OnDashGo(InputAction.CallbackContext context);
         void OnDashStop(InputAction.CallbackContext context);
+        void OnOpenLevelChoose(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
