@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class SphereMove : MonoBehaviour
+public class CaroSphereMove : MonoBehaviour
 {
     SphereControlls sphereControl;
     private InputAction steer, jump, startDash, stopDash, openLevelChoose;
@@ -24,7 +24,7 @@ public class SphereMove : MonoBehaviour
         sphereControl = new SphereControlls();
         rbSphere = GetComponent<Rigidbody>();
         time = timer.GetComponent<Timer>();
-        
+
     }
 
 
@@ -79,7 +79,7 @@ public class SphereMove : MonoBehaviour
     void Update()
     {
         forceVector = steer.ReadValue<Vector3>();
-       
+
     }
 
     void OpenLevelChoose(InputAction.CallbackContext context)
@@ -87,7 +87,7 @@ public class SphereMove : MonoBehaviour
         SceneManager.LoadScene("LevelChoose");
     }
 
-    void Jump (InputAction.CallbackContext context)
+    void Jump(InputAction.CallbackContext context)
     {
         if (onGround == true)
         {
@@ -95,7 +95,7 @@ public class SphereMove : MonoBehaviour
         }
     }
 
-    void DashCeased (InputAction.CallbackContext context)
+    void DashCeased(InputAction.CallbackContext context)
     {
         isDashing = false;
     }

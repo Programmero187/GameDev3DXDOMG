@@ -8,22 +8,24 @@ public class LevelChoose : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    void OpenCarosLevel()
+    public void OpenCarosLevel()
     {
-        SceneManager.LoadScene("CarosLevel");
+        SceneManager.LoadScene("CaroLevel");
     }
 
-    void OpenPerosLevel()
+    public void OpenPerosLevel()
     {
-        SceneManager.LoadScene("PerosLevel");
+        SceneManager.LoadScene("PeroLevel");
     }
+
+
 }

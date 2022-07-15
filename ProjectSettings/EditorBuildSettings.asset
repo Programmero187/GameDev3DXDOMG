@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LevelChoose.unity
     guid: 6772c781beae99944babb197e6d5f096
+  - enabled: 1
+    path: Assets/Scenes/CaroLevel.unity
+    guid: 3de107707cf1aff4fa517c2e92774e8f
+  - enabled: 1
+    path: Assets/Scenes/PeroLevel.unity
+    guid: b881accda45148c40bc6e84dab131473
   m_configObjects: {}
